@@ -87,18 +87,7 @@ namespace SpaceMouse_HidLibrary
                 return null;
             }
 
-            var multiplierByteIndex = valueByteIndex + 1;
-            var valueByte = bytes[valueByteIndex];
-            var multiplierByte = bytes[multiplierByteIndex];
-            //Console.WriteLine($"Value: {valueByte} {multiplierByte}");
-
-            var isInverted = multiplierByte > 253;
-            var isAmplified = isInverted ? multiplierByte == 254 : multiplierByte == 1;
-
-            var value = isInverted ? 255 - valueByte : valueByte;
-            if (isAmplified) value += 255;
-            if (isInverted) value *= -1;
-            return value;
+            return BitConverter.ToInt16(new[] { bytes[valueByteIndex], bytes[valueByteIndex + 1] }, 0);
         }
     }
 }
